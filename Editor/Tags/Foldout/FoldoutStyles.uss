@@ -1,0 +1,12 @@
+.gist-foldout
+{
+    background-color: var(--background-color-darker);
+    border-color: var(--border-color-regular);
+    border-width: var(--border-width-regular);
+    border-radius: var(--border-radius-regular);
+}
+
+.gist-foldout-container
+{
+    margin-bottom: 4px;
+}

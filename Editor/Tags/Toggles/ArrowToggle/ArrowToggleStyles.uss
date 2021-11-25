@@ -1,0 +1,17 @@
+﻿.gist-arrow-toggle
+{
+    width: 10px;
+    height: 10px;
+}
+
+.gist-arrow-toggle__folded
+{
+    background-image: resource("arrow-head-right");
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.5);
+}
+
+.gist-arrow-toggle__unfolded
+{
+    background-image: resource("arrow-head-bottom");
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.5);
+}

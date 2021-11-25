@@ -1,0 +1,18 @@
+{
+    "name": "Skrimel.Gist.UIComponents.Editor",
+    "references": [
+        "GUID:5c504cadbd6b2f646993b58063266b6b",
+        "GUID:0b819e3dfa86ec74d9866a724df76563"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,27 @@
+﻿.gist-header
+{
+    flex-direction: row;
+    align-items: center;
+}
+
+.gist-header-icon
+{
+    height: 12px;
+    width: 12px
+}
+
+Header > Image
+{
+    margin-right: 2px;
+}
+
+.gist-toggled-header
+{
+    align-items: center;
+    padding: 4px;
+}
+
+.gist-toggled-header__toggle
+{
+    margin-right: 4px;
+}

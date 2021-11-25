@@ -1,0 +1,21 @@
+VisualElement
+{
+    border-width: 0;
+}
+
+.centrilize-content
+{
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.transparent-background
+{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.main-background-color
+{
+    background-color: #23272D;
+}

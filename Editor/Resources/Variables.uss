@@ -1,0 +1,22 @@
+﻿:root {
+    --small-text-size: 12px;
+    --text-size: 14px;
+
+    --small-header-size: 16px;
+    --header-size: 20px;
+    --big-header-size: 24px;
+    
+    --regular-border-size: 4px;
+
+    --background-color-lighter: rgb(56, 56, 56);
+    --background-color: rgb(48, 48, 48);
+    --background-color-darker: rgb(40, 40, 40);
+    
+    --foldout-arrow-folded: resource("closed.png");
+    --foldout-arrow-unfolded: resource("opened.png");
+
+
+    --border-color-regular: rgba(255, 255, 255, 0.25);
+    --border-width-regular: 1px;
+    --border-radius-regular: 2px;
+}
