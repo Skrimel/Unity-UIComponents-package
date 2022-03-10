@@ -31,6 +31,6 @@ namespace Farious.Gist.UIComponents.Components
 			Node.Hide();
 
 		private void FindController() =>
-			Node.FindComponentInParents<PagesComponent>(false).AddPage(this);
+			Node.FindInParents<PagesComponent>(false).AddPage(this);
 	}
 }

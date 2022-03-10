@@ -10,7 +10,7 @@ namespace Farious.Gist.UIComponents.Examples.PagesFeature
 
 		PageComponent Component { get; set; }
 
-		public Page2() : base()
+		public Page2()
 		{
 			_label = new Label();
 			_label.text = "Page 2 content";
@@ -18,7 +18,7 @@ namespace Farious.Gist.UIComponents.Examples.PagesFeature
 
 			AttachedToHierarchy += () =>
 			{
-				Component = AddComponent<PageComponent>();
+				Component = Create<PageComponent>();
 				Component.TabName = "Page 2";
 			};
 		}

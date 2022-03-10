@@ -26,7 +26,7 @@ namespace Farious.Gist.UIComponents.Tags.Headers
 
 			InnerToggle = toggle;
 			InnerToggle.View.AddToClassList(ToggleClassName);
-			AddChild(InnerToggle);
+			Create(InnerToggle);
 			InnerToggle.View.SendToBack();
 
 			InnerToggle.Changed += PropagateChanged;

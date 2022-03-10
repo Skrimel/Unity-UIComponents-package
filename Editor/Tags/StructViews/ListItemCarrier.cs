@@ -8,9 +8,9 @@ namespace Farious.Gist.UIComponents.Tags.StructViews
 	{
 		public ListItemCarrier()
 		{
-			var draggerContainer = CreateAndAddChild<Node>();
+			var draggerContainer = CreateChild<Node>();
 			var icon = new Image();
-			draggerContainer.Add(icon);
+			Add(icon);
 		}
 	}
 }

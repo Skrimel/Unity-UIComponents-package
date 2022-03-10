@@ -29,6 +29,8 @@ namespace Farious.Gist.UIComponents.Components
 
 		public void SetActivity(bool state, bool isForce)
 		{
+			isForce = false;
+
 			if (IsActive == state && !isForce)
 				throw new ArgumentException($"State is already set to {state}");
 

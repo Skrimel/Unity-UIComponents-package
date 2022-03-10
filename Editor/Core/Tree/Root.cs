@@ -4,7 +4,7 @@
 	{
 		public Root()
 		{
-			var settingsFinder = AddComponent<AssetsFinderComponent<GeneralSettingsCarrier>>();
+			var settingsFinder = Create<AssetsFinderComponent<GeneralSettingsCarrier>>();
 			var settings = settingsFinder.FindFirstAssociatedAsset();
 			AddStyleSheets(settings.StyleSheets);
 		}

@@ -9,19 +9,19 @@ namespace Farious.Gist.UIComponents.Examples.PagesFeature
 		PagesComponent Pages { get; }
 		TabsComponent Tabs { get; }
 
-		public PagesExample() : base()
+		public PagesExample()
 		{
 			var tabsContainer = new VisualElement();
 			tabsContainer.style.flexDirection = FlexDirection.Row;
 			Add(tabsContainer);
 
-			Pages = AddComponent<PagesComponent>();
-			Tabs = AddComponent<TabsComponent>();
+			Pages = Create<PagesComponent>();
+			Tabs = Create<TabsComponent>();
 			Tabs.SetViewData(tabsContainer, Pages);
 
-			CreateAndAddChild<Page1>();
-			CreateAndAddChild<Page2>();
-			CreateAndAddChild<Page3>();
+			CreateChild<Page1>();
+			CreateChild<Page2>();
+			CreateChild<Page3>();
 
 			Activated += Tabs.CreateTabs;
 		}

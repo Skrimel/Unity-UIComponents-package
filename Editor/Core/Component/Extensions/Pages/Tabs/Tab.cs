@@ -5,15 +5,15 @@ namespace Farious.Gist.UIComponents.Components
 {
 	public class Tab : Node
 	{
-		private readonly Image _faviconContainer = new Image();
-		private readonly Label _label = new Label();
+		private readonly Image _faviconContainer = new();
+		private readonly Label _label = new();
 		private PageComponent _page;
 		private PagesComponent _pagesComponent;
 
 		public Tab() : base()
 		{
-			Add(_faviconContainer);
-			Add(_label);
+			((VisualElement)this).Add(_faviconContainer);
+			((VisualElement)this).Add(_label);
 
 			AddToClassList("tab");
 

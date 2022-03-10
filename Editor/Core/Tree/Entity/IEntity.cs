@@ -11,18 +11,18 @@ namespace Farious.Gist.UIComponents.Tree
 
 		VisualElement View { get; }
 
-		TComponent AddComponent<TComponent>() where TComponent : class, INodeComponent, new();
-		void AddComponent<TComponent>(TComponent component) where TComponent : class, INodeComponent;
-		TComponent RemoveComponent<TComponent>() where TComponent : class, INodeComponent;
+		TComponent Create<TComponent>() where TComponent : class, INodeComponent, new();
+		void Attach<TComponent>(TComponent component) where TComponent : class, INodeComponent;
+		TComponent Remove<TComponent>() where TComponent : class, INodeComponent;
 
-		bool HasComponent<TComponent>() where TComponent : class, INodeComponent;
-		bool HasComponent(Type type);
-		bool ContainsComponent(INodeComponent component);
+		bool Has<TComponent>() where TComponent : class, INodeComponent;
+		bool Has(Type type);
+		bool Contains(INodeComponent component);
 
-		TComponent FindComponent<TComponent>() where TComponent : class, INodeComponent;
-		INodeComponent FindComponent(Predicate<INodeComponent> finder);
-		TComponent FindComponent<TComponent>(Predicate<TComponent> finder) where TComponent : class, INodeComponent;
+		TComponent Get<TComponent>() where TComponent : class, INodeComponent;
+		INodeComponent Find(Predicate<INodeComponent> finder);
+		TComponent Find<TComponent>(Predicate<TComponent> finder) where TComponent : class, INodeComponent;
 
-		IEnumerable<TComponent> GetComponents<TComponent>() where TComponent : class, INodeComponent;
+		IEnumerable<TComponent> GetAll<TComponent>() where TComponent : class, INodeComponent;
 	}
 }

@@ -10,7 +10,7 @@ namespace Farious.Gist.UIComponents.Examples.Tags.Foldouts
 
 		public FoldoutCarrier()
 		{
-			Foldout = CreateAndAddChild<Foldout>();
+			Foldout = CreateChild<Foldout>();
 			Foldout.Header.Text.text = "Foldout";
 
 			for (int i = 0; i < 5; i++)
@@ -18,7 +18,7 @@ namespace Farious.Gist.UIComponents.Examples.Tags.Foldouts
 				var element = new TextElement();
 				element.text = "Text " + i;
 
-				Foldout.Add(element);
+				((VisualElement)this).Add(element);
 			}
 		}
 	}

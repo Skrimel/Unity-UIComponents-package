@@ -6,9 +6,9 @@ namespace Farious.Gist.UIComponents.Examples.PagesFeature
 	{
 		public readonly PagesExample _pages;
 
-		public ExampleRoot() : base()
+		public ExampleRoot()
 		{
-			_pages = CreateAndAddChild<PagesExample>();
+			_pages = CreateChild<PagesExample>();
 		}
 	}
 }

@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
 using Farious.Gist.UIComponents.Components;
+using Farious.Gist.UIComponents.Components.Extensions.Command;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Farious.Gist.UIComponents.Tree
 {
-	public class Node : Entity, INode
+	public partial class Node : Entity, INode
 	{
-		public new HierarchyComponent Hierarchy { get; private set; }
-		public INode ParentInHierarchy => Hierarchy.Parent.Node;
+		public bool IsVisible { get; private set; }
+
+		public event Action Destroying;
 
 		public event Action Shown;
 		public event Action Hidden;
@@ -17,48 +19,48 @@ namespace Farious.Gist.UIComponents.Tree
 		public event Action Activated;
 		public event Action Deactivated;
 
-		public event Action Destroying;
-
 		public event Action AttachedToHierarchy;
 
 		public Node()
 		{
-			Hierarchy = AddComponent<HierarchyComponent>();
+			Create<HierarchyComponent>();
+			Create<CommandsComponent>();
 
 			Hierarchy.Activated += () => Activated?.Invoke();
 			Hierarchy.Deactivated += () => Deactivated?.Invoke();
 		}
 
-		public sealed override TComponent AddComponent<TComponent>()
+		public sealed override TComponent Create<TComponent>()
 		{
 			var component = new TComponent();
-			_components.Add(component);
+			_components.Add(typeof(TComponent), component);
 			component.Attach(this);
 			return component;
 		}
 
-		public sealed override void AddComponent<TComponent>(TComponent component)
+		public sealed override void Attach<TComponent>(TComponent component)
 		{
-			_components.Add(component);
+			_components.Add(typeof(TComponent), component);
 			component.Attach(this);
 		}
 
-		public sealed override TComponent RemoveComponent<TComponent>()
+		public sealed override TComponent Remove<TComponent>()
 		{
-			if (!HasComponent<TComponent>())
+			if (!Has<TComponent>())
 				throw new NullReferenceException($"Unable to remove component of type {typeof(TComponent)}.");
 
-			var comp = FindComponent<TComponent>();
-			_components.Remove(comp);
-			return comp;
+			var type = typeof(TComponent);
+			var target = (TComponent) _components[type];
+			_components.Remove(type);
+			return target;
 		}
 
-		public sealed override void RemoveComponent(Components.NodeComponent component)
+		public sealed override void Remove(NodeComponent component)
 		{
-			if (!ContainsComponent(component))
+			if (!Contains(component))
 				throw new NullReferenceException($"Unable to remove component of type {component.GetType()}.");
 
-			_components.Remove(component);
+			_components.Remove(component.GetType());
 		}
 
 		public void Dispose()
@@ -79,14 +81,22 @@ namespace Farious.Gist.UIComponents.Tree
 
 		public void Show()
 		{
+			if (IsVisible)
+				throw new InvalidOperationException("Already shown");
+
 			style.display = DisplayStyle.Flex;
+			IsVisible = true;
 
 			Shown?.Invoke();
 		}
 
 		public void Hide()
 		{
+			if (!IsVisible)
+				throw new InvalidOperationException("Already hidden");
+
 			style.display = DisplayStyle.None;
+			IsVisible = false;
 
 			Hidden?.Invoke();
 		}
@@ -109,32 +119,25 @@ namespace Farious.Gist.UIComponents.Tree
 		public TNode CreateChild<TNode>()
 			where TNode : class, INode, new()
 		{
+			return CreateChild<TNode>(this);
+		}
+
+		public TNode CreateChild<TNode>(VisualElement container)
+			where TNode : class, INode, new()
+		{
 			var result = new TNode();
 			result.AttachToHierarchy(Hierarchy);
-			return result;
-		}
-
-		public TNode CreateAndAddChild<TNode>()
-			where TNode : class, INode, new()
-		{
-			return CreateAndAddChild<TNode>(this);
-		}
-
-		public TNode CreateAndAddChild<TNode>(VisualElement container)
-			where TNode : class, INode, new()
-		{
-			var result = CreateChild<TNode>();
 			container.Add(result.View);
 			return result;
 		}
 
-		public void AddChild(INode node)
+		public void Create(INode node)
 		{
 			node.AttachToHierarchy(Hierarchy);
 			Add(node.View);
 		}
 
-		public bool HasComponentInParents(Type type, bool includeSelf)
+		public bool HasInParents(Type type, bool includeSelf = false)
 		{
 			foreach (var element in Hierarchy.PathToRoot)
 			{
@@ -143,14 +146,14 @@ namespace Farious.Gist.UIComponents.Tree
 				if (node == this && !includeSelf)
 					continue;
 
-				if (node.HasComponent(type))
+				if (node.Has(type))
 					return true;
 			}
 
 			return false;
 		}
 
-		public bool HasComponentInParents<TComponent>(bool includeSelf)
+		public bool HasInParents<TComponent>(bool includeSelf = false)
 			where TComponent : class, INodeComponent
 		{
 			foreach (var element in Hierarchy.PathToRoot)
@@ -160,14 +163,14 @@ namespace Farious.Gist.UIComponents.Tree
 				if (node == this && !includeSelf)
 					continue;
 
-				if (node.HasComponent<TComponent>())
+				if (node.Has<TComponent>())
 					return true;
 			}
 
 			return false;
 		}
 
-		public TComponent FindComponentInParents<TComponent>(bool includeSelf)
+		public TComponent FindInParents<TComponent>(bool includeSelf = false)
 			where TComponent : class, INodeComponent
 		{
 			TComponent result = default;
@@ -179,9 +182,9 @@ namespace Farious.Gist.UIComponents.Tree
 				if (node == this && !includeSelf)
 					continue;
 
-				if (node.HasComponent<TComponent>())
+				if (node.Has<TComponent>())
 				{
-					result = node.FindComponent<TComponent>();
+					result = node.Get<TComponent>();
 					break;
 				}
 			}
@@ -192,13 +195,7 @@ namespace Farious.Gist.UIComponents.Tree
 			return result;
 		}
 
-		public IContextComponent<TContent> FindContext<TContent>() =>
-			FindComponentInParents<IContextComponent<TContent>>(false);
-
-		public IProviderComponent<TContent> FindProvider<TContent>() =>
-			FindComponentInParents<IProviderComponent<TContent>>(false);
-
-		public IEnumerable<TComponent> GetComponentsInParents<TComponent>(bool includeSelf)
+		public IEnumerable<TComponent> GetAllInParents<TComponent>(bool includeSelf)
 			where TComponent : class, INodeComponent
 		{
 			HashSet<TComponent> result = null;
@@ -210,8 +207,8 @@ namespace Farious.Gist.UIComponents.Tree
 				if (node == this && !includeSelf)
 					continue;
 
-				if (node.HasComponent<TComponent>())
-					foreach (var comp in node.GetComponents<TComponent>())
+				if (node.Has<TComponent>())
+					foreach (var comp in node.GetAll<TComponent>())
 						result.Add(comp);
 			}
 

@@ -8,7 +8,7 @@ namespace Farious.Gist.UIComponents.Examples.Tags.Foldouts
 
 		public ExampleRoot()
 		{
-			Example = CreateAndAddChild<FoldoutCarrier>();
+			Example = CreateChild<FoldoutCarrier>();
 		}
 	}
 }

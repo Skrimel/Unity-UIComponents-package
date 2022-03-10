@@ -9,64 +9,38 @@ namespace Farious.Gist.UIComponents.Tree
 	{
 		public string BaseClassName => "gist-";
 
-		protected HashSet<INodeComponent> _components = new HashSet<INodeComponent>();
-		public IEnumerable<INodeComponent> Components => _components;
+		protected Dictionary<Type, INodeComponent> _components = new();
+		public IEnumerable<INodeComponent> Components => _components.Values;
 
 		public VisualElement View => this;
 
-		public abstract TComponent AddComponent<TComponent>()
+		public abstract TComponent Create<TComponent>()
 			where TComponent : class, INodeComponent, new();
 
-		public abstract void AddComponent<TComponent>(TComponent component)
+		public abstract void Attach<TComponent>(TComponent component)
 			where TComponent : class, INodeComponent;
 
-		public abstract TComponent RemoveComponent<TComponent>()
+		public abstract TComponent Remove<TComponent>()
 			where TComponent : class, INodeComponent;
 
-		public abstract void RemoveComponent(NodeComponent component);
+		public abstract void Remove(NodeComponent component);
 
-		public bool HasComponent<TComponent>() where TComponent : class, INodeComponent
-		{
-			bool result = false;
+		public bool Has<TComponent>() where TComponent : class, INodeComponent =>
+			_components.ContainsKey(typeof(TComponent));
 
-			foreach (var comp in Components)
-				result |= (comp as TComponent) != null;
+		public bool Has(Type type) =>
+			_components.ContainsKey(type);
 
-			return result;
-		}
+		public bool Contains(INodeComponent component) =>
+			_components.ContainsValue(component);
 
-		public bool HasComponent(Type type)
-		{
-			bool result = false;
-
-			foreach (var comp in Components)
-				result |= type.IsAssignableFrom(comp.GetType());
-
-			return result;
-		}
-
-		public bool ContainsComponent(INodeComponent component) =>
-			_components.Contains(component);
-
-		public TComponent FindComponent<TComponent>()
+		public TComponent Get<TComponent>()
 			where TComponent : class, INodeComponent
 		{
-			TComponent result = default;
-
-			foreach (var component in Components)
-				if (component is TComponent)
-				{
-					result = component as TComponent;
-					break;
-				}
-
-			if (result == null)
-				throw new NullReferenceException("Unable to find component");
-
-			return result;
+			return (TComponent) _components[typeof(TComponent)];
 		}
 
-		public INodeComponent FindComponent(Predicate<INodeComponent> finder)
+		public INodeComponent Find(Predicate<INodeComponent> finder)
 		{
 			INodeComponent result = default;
 
@@ -83,7 +57,7 @@ namespace Farious.Gist.UIComponents.Tree
 			return result;
 		}
 
-		public TComponent FindComponent<TComponent>(Predicate<TComponent> finder)
+		public TComponent Find<TComponent>(Predicate<TComponent> finder)
 			where TComponent : class, INodeComponent
 		{
 			TComponent result = default;
@@ -102,7 +76,7 @@ namespace Farious.Gist.UIComponents.Tree
 			return result;
 		}
 
-		public IEnumerable<TComponent> GetComponents<TComponent>()
+		public IEnumerable<TComponent> GetAll<TComponent>()
 			where TComponent : class, INodeComponent
 		{
 			List<TComponent> result = new List<TComponent>();

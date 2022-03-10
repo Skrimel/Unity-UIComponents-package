@@ -1,4 +1,4 @@
-namespace Gist.Core.UIComponents.Runtime.Core.Commands
+namespace Farious.Gist.UIComponents.Commands
 {
 	public interface ICommand
 	{

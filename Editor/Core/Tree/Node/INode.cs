@@ -4,9 +4,11 @@ using Farious.Gist.UIComponents.Components;
 
 namespace Farious.Gist.UIComponents.Tree
 {
-	public interface INode : IEntity, IDisposable
+	public partial interface INode : IEntity, IDisposable
 	{
-		INode ParentInHierarchy { get; }
+		bool IsVisible { get; }
+
+		event Action Destroying;
 
 		event Action Shown;
 		event Action Hidden;
@@ -14,17 +16,15 @@ namespace Farious.Gist.UIComponents.Tree
 		event Action Activated;
 		event Action Deactivated;
 
-		event Action AttachedToHierarchy;
-
-		bool HasComponentInParents<TComponent>(bool includesSelf)
+		bool HasInParents<TComponent>(bool includesSelf)
 			where TComponent : class, INodeComponent;
 
-		bool HasComponentInParents(Type type, bool includesSelf);
+		bool HasInParents(Type type, bool includesSelf);
 
-		TComponent FindComponentInParents<TComponent>(bool includeSelf)
+		TComponent FindInParents<TComponent>(bool includeSelf)
 			where TComponent : class, INodeComponent;
 
-		IEnumerable<TComponent> GetComponentsInParents<TComponent>(bool includeSelf)
+		IEnumerable<TComponent> GetAllInParents<TComponent>(bool includeSelf)
 			where TComponent : class, INodeComponent;
 
 		void Show();

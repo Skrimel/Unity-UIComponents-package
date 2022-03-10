@@ -5,10 +5,10 @@ namespace Farious.Gist.UIComponents.Components
 {
 	public class TabsComponent : NodeComponent
 	{
-		private VisualElement _tabsContainer = default;
-		private PagesComponent _pages = default;
+		private VisualElement _tabsContainer;
+		private PagesComponent _pages;
 
-		private readonly List<Tab> _currentTabs = new List<Tab>();
+		private readonly List<Tab> _currentTabs = new();
 
 		public void SetViewData(VisualElement container, PagesComponent pages)
 		{

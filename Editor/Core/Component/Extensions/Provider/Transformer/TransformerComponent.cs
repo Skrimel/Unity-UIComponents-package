@@ -12,7 +12,7 @@ namespace Farious.Gist.UIComponents.Components
 		{
 			AttachedToNode += () =>
 			{
-				_parent = Node.FindComponentInParents<IProviderComponent<THandledContent>>(true);
+				_parent = Node.FindInParents<IProviderComponent<THandledContent>>(true);
 				_parent.ContentChanged += MarkContentAsChanged;
 				_parent.ContentModified += MarkAsModified;
 			};

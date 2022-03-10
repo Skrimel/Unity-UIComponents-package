@@ -22,7 +22,7 @@ namespace Farious.Gist.UIComponents.Tags.Foldouts
 		public Foldout(IToggle toggle)
 		{
 			Header = new ToggledHeader(toggle);
-			AddChild(Header);
+			Create(Header);
 
 			_container = new VisualElement();
 			_container.style.paddingLeft = 4;

@@ -1,4 +1,4 @@
-﻿namespace Gist.Core.UIComponents.Runtime.Core.Rules
+﻿namespace Farious.Gist.UIComponents.Runtime.Core.Rules
 {
 	public class RulesSystem
 	{

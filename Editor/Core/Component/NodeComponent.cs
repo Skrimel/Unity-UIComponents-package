@@ -28,7 +28,7 @@ namespace Farious.Gist.UIComponents.Components
 
 			foreach (var component in RequiredComponents)
 			{
-				result &= node.HasComponent(component.GetType());
+				result &= node.Has(component.GetType());
 
 				if (!result)
 					break;
